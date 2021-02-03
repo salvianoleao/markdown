@@ -3,6 +3,7 @@
 
 local util = require("lunamark.util")
 local lpeg = require("lpeg")
+local json = require("json")
 local entities = require("lunamark.entities")
 local lower, upper, gsub, format, length =
   string.lower, string.upper, string.gsub, string.format, string.len

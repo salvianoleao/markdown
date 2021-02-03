@@ -524,7 +524,7 @@ if inp:find("\r",1,true) then
   inp = inp:gsub("\r\n","\n") -- convert DOS line endings
 end
 
-local inp_pandoc = lunamark.util.pipe("pandoc -f markdown -t native", inp)
+local inp_pandoc = lunamark.util.pipe("pandoc -f markdown -t json", inp)
 local body, metadata = parse(inp_pandoc)
 
 local standalone = optarg.s
