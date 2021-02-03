@@ -426,7 +426,7 @@ local to = optarg.t or "html"
 ensure_one_of("--to,-t", to,
   {"markdown","html","html5","dzslides","docbook","latex","context","man"})
 
-local reader = lunamark.reader.markdown
+local reader = lunamark.reader.pandoc_ast
 
 local extensions = {  -- defaults
   containers = (to == "docbook" or to == "dzslides"),
@@ -524,7 +524,8 @@ if inp:find("\r",1,true) then
   inp = inp:gsub("\r\n","\n") -- convert DOS line endings
 end
 
-local body, metadata = parse(inp)
+local inp_pandoc = lunamark.util.pipe("pandoc -f markdown -t native", inp)
+local body, metadata = parse(inp_pandoc)
 
 local standalone = optarg.s
 local template = optarg.T

@@ -224,5 +224,20 @@ function M.escaper(char_escapes, string_escapes)
   end
 end
 
+-- runs cmd on file containing inp and returns result
+local function pipe(cmd, inp)
+  local tmp = os.tmpname()
+  local tmph = io.open(tmp, "w")
+  tmph:write(inp)
+  tmph:close()
+  local outh = io.popen(cmd .. " " .. tmp,"r")
+  local result = outh:read("*all")
+  outh:close()
+  os.remove(tmp)
+  return result
+end
+
+M.pipe = pipe
+
 
 return M
