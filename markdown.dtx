@@ -93,6 +93,12 @@
 
 % Set up the bibliography.
 \begin{filecontents}[overwrite,nosearch,noheader]{markdown.bib}
+@book{tantau21,
+  author    = {Till Tantau and Joseph Wright and Vedran Miletić},
+  title     = {The Beamer class},
+  date      = {2021-02-10},
+  url       = {http://mirrors.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf},
+  urldate   = {2021-02-11}}
 @online{sotkov17,
   author    = {Sotkov, Anton},
   title     = {File transclusion syntax for Markdown},
@@ -10820,6 +10826,31 @@ pdflatex --shell-escape document.tex
 % \par
 % \begin{markdown}
 %
+% The \LaTeX{} option with key `theme` loads a \LaTeX{} package (further
+% referred to as *a theme*) named \meta{value}`markdowntheme.sty`. This is
+% inspired by the Beamer \LaTeX{} package, which provides similar functionality
+% with its \m{usetheme} macro [@tantau21, Section 15.1].
+%
+% If the \LaTeX{} option with key `theme` is (repeatedly) specified in the
+% \m{usepackage} macro, the loading of the theme(s) in first in, first out
+% order will postponed until after the markdown \LaTeX{} package has been
+% loaded. Otherwise, the theme(s) will be loaded immediately. Themes may not
+% be loaded after the beginning of a \LaTeX{} document.
+%
+% \end{markdown}
+%  \begin{macrocode}
+\newif\ifmarkdownLaTeXLoaded\markdownLaTeXLoadedfalse
+\newtoks\markdownLaTeXPostponed
+\define@key{markdownOptions}{theme}{%
+  \ifmarkdownLaTeXLoaded
+    \RequirePackage{#1markdowntheme}%
+  \else
+    \addto@hook\markdownLaTeXPostponed{\RequirePackage{#1markdowntheme}}%
+  \fi}%
+%    \end{macrocode}
+% \par
+% \begin{markdown}
+%
 % The following example \LaTeX{} code showcases a possible configuration of
 % plain \TeX{} interface options \m{markdownOptionHybrid},
 % \m{markdownOptionSmartEllipses}, and \m{markdownOptionCacheDir}.
@@ -17558,8 +17589,6 @@ end
   \fi
   \advance\markdownLaTeXRowCounter by 1\relax
   \ifnum\markdownLaTeXRowCounter>\markdownLaTeXRowTotal\relax
-    \markdownInfo{\the\markdownLaTeXTable}
-    \markdownInfo{\the\markdownLaTeXTableEnd}
     \the\markdownLaTeXTable
     \the\markdownLaTeXTableEnd
     \expandafter\@gobble
@@ -17600,6 +17629,17 @@ end
     \catcode\count0=11\relax
     \advance\count0 by 1\relax
   \ifnum\count0<256\repeat}%
+%    \end{macrocode}
+% \par
+% \begin{markdown}
+%
+% If the \LaTeX{} option with key `theme` has (repeatedly) been specified in
+% the \m{usepackage} macro, the themes will now be loaded in first in, first
+% out order.
+%
+% \end{markdown}
+%  \begin{macrocode}
+\the\markdownLaTeXPostponed
 %    \end{macrocode}
 % \iffalse
 %</latex>
