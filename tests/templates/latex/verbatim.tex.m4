@@ -1,12 +1,9 @@
 \documentclass{minimal}
 \csname UseRawInputEncoding\endcsname
 % Load the package.
-\usepackage{markdown}
+\usepackage[theme=test]{markdown}
 % Load the support files.
 \input setup\relax
-\usepackage{catchfile}
-\CatchFileDef{\LATEXOPTIONS}{latex-setup}\relax
-\expandafter\markdownSetup\expandafter{\LATEXOPTIONS}
 % Load the test-specific setup.
 \input TEST_SETUP_FILENAME\relax
 \begin{document}
