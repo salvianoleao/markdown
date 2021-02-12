@@ -10832,10 +10832,11 @@ pdflatex --shell-escape document.tex
 % with its \m{usetheme} macro [@tantau21, Section 15.1].
 %
 % If the \LaTeX{} option with key `theme` is (repeatedly) specified in the
-% \m{usepackage} macro, the loading of the theme(s) in first in, first out
-% order will postponed until after the markdown \LaTeX{} package has been
-% loaded. Otherwise, the theme(s) will be loaded immediately. Themes may not
-% be loaded after the beginning of a \LaTeX{} document.
+% \m{usepackage} macro, the loading of the theme(s) will be postponed in
+% first-in-first-out order until after the markdown \LaTeX{} package has been
+% loaded. Otherwise, the theme(s) will be loaded immediately. Due to
+% limitations of \LaTeX{} packages, themes may not be loaded after the
+% beginning of a \LaTeX{} document.
 %
 % \end{markdown}
 %  \begin{macrocode}
